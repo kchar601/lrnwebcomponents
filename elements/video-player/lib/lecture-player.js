@@ -39,7 +39,7 @@ class LecturePlayer extends DDDSuper(LitElement) {
   constructor() {
     super();
     this.associatedNodes = new Object();
-    this.videoPlayer = this.querySelector("video-player").outerHTML;
+    this.videoPlayer = this.querySelector("video-player").cloneNode(true);
     this.videoInterval = null;
     this.activeIndex = null;
   }
@@ -470,7 +470,7 @@ class LecturePlayer extends DDDSuper(LitElement) {
       }
     </style>
       <div class="videoSection normal">
-          ${this.videoPlayer}
+        <span id="lecture-player-video"></span>
         <div class="jumbotron"></div>
         <div class="lecture-mode-controls">
         <simple-icon-button-lite class="lecture-control" id="lecture-size-small" icon="image:photo-size-select-large"></simple-icon-button-lite>

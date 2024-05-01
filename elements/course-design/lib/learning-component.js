@@ -229,10 +229,12 @@ class LearningComponent extends I18NMixin(DDD) {
           padding: var(--ddd-spacing-0);
           font-weight: var(--ddd-font-weight-bold);
           text-transform: uppercase;
+          line-height: var(--ddd-lh-120);
         }
         .sub-title {
           font-weight: var(--ddd-font-weight-regular);
           text-transform: uppercase;
+          line-height: var(--ddd-lh-120);
         }
         .icon {
           display: flex;
@@ -254,6 +256,11 @@ class LearningComponent extends I18NMixin(DDD) {
           padding: var(--ddd-spacing-1);
         }
 
+        simple-icon-lite {
+          border: var(--ddd-border-sm);
+          border-radius: var(--ddd-radius-circle);
+        }
+
         simple-icon-button-lite {
           color: var(--simple-colors-default-theme-accent-8);
         }
@@ -261,6 +268,9 @@ class LearningComponent extends I18NMixin(DDD) {
         .content {
           padding: var(--ddd-spacing-5) var(--ddd-spacing-3)
             var(--ddd-spacing-5) var(--ddd-spacing-6);
+            border: var(--ddd-border-sm);
+            border-top: none;
+            box-shadow: var(--ddd-boxShadow-lg);
         }
 
         .urlPresent {
@@ -309,22 +319,6 @@ class LearningComponent extends I18NMixin(DDD) {
             width: var(--ddd-icon-xl);
           }
         }
-
-        .b-sm {
-          border: var(--ddd-border-sm);
-        }
-        .r-circle {
-          border-radius: var(--ddd-radius-circle);
-        }
-        .lh-120 {
-          line-height: var(--ddd-lh-120);
-        }
-        .bt-0 {
-          border-top: none;
-        }
-        .bs-lg {
-          box-shadow: var(--ddd-boxShadow-lg);
-        }
       `,
     ];
   }
@@ -339,16 +333,15 @@ class LearningComponent extends I18NMixin(DDD) {
           ${this.icon
             ? html` <simple-icon-lite
                 icon="${this.icon}"
-                class="b-sm r-circle"
               ></simple-icon-lite>`
             : ``}
         </div>
         <div class="title-wrap">
-          <div class="sub-title lh-120">${this.subtitle}</div>
-          <div class="title lh-120">${this.title}</div>
+          <div class="sub-title">${this.subtitle}</div>
+          <div class="title">${this.title}</div>
         </div>
       </div>
-      <div class="content b-sm bt-0 bs-lg ${this.url ? "urlPresent" : ""}">
+      <div class="content ${this.url ? "urlPresent" : ""}">
         <div class="slot">
           <slot></slot>
         </div>

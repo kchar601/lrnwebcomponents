@@ -1,9 +1,9 @@
-import { html, css } from "lit";
+import { html, css, LitElement } from "lit";
 import "@lrnwebcomponents/simple-icon/lib/simple-icons.js";
 import "@lrnwebcomponents/simple-icon/lib/simple-icon-lite.js";
-import { DDD } from "@lrnwebcomponents/d-d-d/d-d-d.js";
+import { DDDSuper } from "@lrnwebcomponents/d-d-d/d-d-d.js";
 
-export class BlockQuote extends DDD {
+export class BlockQuote extends DDDSuper(LitElement) {
   static get properties() {
     return {
       ...super.properties,
@@ -64,21 +64,26 @@ export class BlockQuote extends DDD {
       css`
         :host {
           background-color: var(
-            --ddd-component-block-quote-background,
-            var(--ddd-theme-default-limestoneMaxLight, #f5f5f5)
+            --ddd-theme-accent,
+            var(--block-quote-accent,
+              var(--ddd-theme-default-limestoneMaxLight)
+            )
           );
           display: flex;
           align-items: start;
           width: 100%;
           container-type: inline-size;
+          color: var(--lowContrast-override);
         }
 
         #wrap {
           display: flex;
           border-left: var(--ddd-border-lg);
           border-color: var(
-            --ddd-component-block-quote-border-color,
-            var(--ddd-theme-accent, var(--ddd-theme-default-limestoneGray))
+            --ddd-theme-primary,
+            var(--block-quote-primary, 
+              var(--ddd-theme-default-limestoneGray)
+            )
           );
           padding: var(--ddd-spacing-6);
           text-align: center;
@@ -117,9 +122,12 @@ export class BlockQuote extends DDD {
 
         simple-icon-lite {
           align-self: flex-start;
-          color: var(
-            --ddd-component-block-quote-icon,
-            var(--ddd-theme-accent, var(--ddd-theme-default-potential50))
+          color: var(--lowContrast-override,
+            var(
+              --ddd-theme-primary,
+              var(--block-quote-primary, 
+                var(--ddd-theme-default-limestoneGray))
+            )
           );
           height: var(--ddd-icon-xs);
           width: var(--ddd-icon-xs);

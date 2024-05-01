@@ -2,9 +2,9 @@
  * Copyright 2019 The Pennsylvania State University
  * @license Apache-2.0, see License.md for full text.
  */
-import { html, css } from "lit";
+import { html, css, LitElement } from "lit";
 import { IntersectionObserverMixin } from "@lrnwebcomponents/intersection-element/lib/IntersectionObserverMixin.js";
-import { DDD } from "@lrnwebcomponents/d-d-d/d-d-d.js";
+import { DDDSuper } from "@lrnwebcomponents/d-d-d/d-d-d.js";
 import "@lrnwebcomponents/simple-icon/lib/simple-icon-button-lite.js";
 /**
  * `accent-card`
@@ -15,13 +15,12 @@ import "@lrnwebcomponents/simple-icon/lib/simple-icon-button-lite.js";
  * @extends SimpleColors
 
  * @demo ./demo/index.html demo
- * @demo ./demo/colors.html colors
  * @demo ./demo/orientation.html card orientation
  * @demo ./demo/borders.html borders and shadow
  * @demo ./demo/images.html image aligmnent
- * @demo ./demo/variables.html css variables
+ * @demo ./demo/imageWidth.html image Width
  */
-class AccentCard extends IntersectionObserverMixin(DDD) {
+class AccentCard extends IntersectionObserverMixin(DDDSuper(LitElement)) {
   /**
    * Store tag name to make it easier to obtain directly.
    * @notice function name must be here for tooling to operate correctly
@@ -37,13 +36,10 @@ class AccentCard extends IntersectionObserverMixin(DDD) {
         :host {
           display: block;
           margin: 0 0 var(--ddd-spacing-4);
-          color: var(
-            --accent-card-color,
-            var(--ddd-theme-default-coalyGray, #000)
-          );
-          background-color: var(
-            --accent-card-background-color,
-            var(--ddd-theme-default-white, #fff)
+          background-color:
+            var(
+              --ddd-theme-accent,
+              var(--accent-card-accent, white)
           );
           border-radius: var(--ddd-radius-xs);
           box-shadow: var(--ddd-boxShadow-sm);
@@ -58,25 +54,10 @@ class AccentCard extends IntersectionObserverMixin(DDD) {
         :host([horizontal]) {
           --base-width: 100%;
         }
-        /* change background & color of text on dark theme */
-        :host([dark]),
-        :host([dark]) .body ::slotted(*),
-        :host([dark]) simple-icon-button-lite {
-          color: var(--accent-card-color, var(--ddd-theme-default-white, #fff));
-          background-color: var(
-            --accent-card-background-color,
-            var(--ddd-theme-default-coalyGray, #000)
-          );
-        }
-        /* change background & color of text on accent theme */
-        :host([accent-background]),
-        :host([accent-background]) .body ::slotted(*),
-        :host([accent-background]) simple-icon-button-lite {
-          background-color: var(
-            --accent-card-background-color,
-            var(--ddd-theme-default-beaverBlue, #fff)
-          );
-          color: var(--accent-card-color, var(--ddd-theme-default-white, #000));
+
+        :host([image-align]) .image-outer,
+        :host([image-valign]) .image-outer {
+          height: var(--image-height, 300px);
         }
 
         .card {
@@ -91,9 +72,11 @@ class AccentCard extends IntersectionObserverMixin(DDD) {
 
         :host([no-border]) .card {
           border-top: var(--ddd-border-xs);
+          border-top-color: var(--ddd-theme-primary, var(--accent-card-color, #000));
         }
         :host([no-border][horizontal]) .card {
           border-left: var(--ddd-border-xs);
+          border-left-color: var(--ddd-theme-primary, var(--accent-card-color, #000));
         }
 
         .body {
@@ -108,6 +91,7 @@ class AccentCard extends IntersectionObserverMixin(DDD) {
           align-items: stretch;
           border: var(--ddd-border-xs);
           border-left: var(--ddd-border-lg);
+          border-left-color: var(--ddd-theme-primary, var(--accent-card-color, #000));
         }
         @container (max-width: 499px) {
           :host([horizontal]) .card {
@@ -126,37 +110,13 @@ class AccentCard extends IntersectionObserverMixin(DDD) {
           border: var(--ddd-border-xs);
           border-color: var(--accent-card-footer-border-color);
         }
-        :host([dark][flat]:not([accent-background])) {
-          border-color: var(
-            --accent-card-footer-border-color,
-            var(--simple-colors-default-theme-grey-6, #666)
-          );
-        }
         :host(:not([horizontal]):not([no-border])) .card {
           border-top: var(--ddd-border-lg);
-          border-top-color: var(
-            --accent-card-border-color,
-            var(--simple-colors-default-theme-accent-6, #ddd)
-          );
+          border-top-color: var(--ddd-theme-primary, var(--accent-card-color, #000));
         }
         :host([horizontal]:not([no-border])) .card {
           border-left: var(--ddd-border-lg);
-          border-left-color: var(
-            --accent-card-border-color,
-            var(--simple-colors-default-theme-accent-6, #ddd)
-          );
-        }
-        :host([dark]:not([horizontal]):not([no-border])) .card {
-          border-top-color: var(
-            --accent-card-border-color,
-            var(--simple-colors-default-theme-accent-7, #fff)
-          );
-        }
-        :host([dark][horizontal]:not([no-border])) .card {
-          border-left-color: var(
-            --accent-card-border-color,
-            var(--simple-colors-default-theme-accent-7, #fff)
-          );
+          border-left-color: var(--ddd-theme-primary, var(--accent-card-color, #000));
         }
         .image-outer {
           display: flex;
@@ -204,10 +164,6 @@ class AccentCard extends IntersectionObserverMixin(DDD) {
         :host([horizontal][image-width="wide"][image-valign]) .image,
         :host([horizontal][image-width="wide"][image-align]) .image {
           object-fit: cover;
-        }
-        :host([image-align]) .image-outer,
-        :host([image-valign]) .image-outer {
-          height: var(--image-height, 300px);
         }
         :host([image-align="left"]) .image {
           object-position: left;
@@ -278,13 +234,6 @@ class AccentCard extends IntersectionObserverMixin(DDD) {
         }
         .footer ::slotted(*) {
           display: inline-flex;
-        }
-
-        :host([dark]) #footer {
-          border-top-color: var(
-            --accent-card-footer-border-color,
-            var(--ddd-theme-default-limestoneGray, #666)
-          );
         }
         :host([ready]) [data-layout-slotname] {
           transition: var(
@@ -466,35 +415,9 @@ class AccentCard extends IntersectionObserverMixin(DDD) {
             },
           },
           {
-            property: "accentColor",
-            title: "Accent Color",
-            description: "An optional accent color.",
-            inputMethod: "colorpicker",
-            icon: "editor:format-color-fill",
-          },
-          {
-            property: "dark",
-            title: "Dark Theme",
-            description: "Enable Dark Theme",
-            inputMethod: "boolean",
-            icon: "icons:invert-colors",
-          },
-          {
             property: "horizontal",
             title: "Horizontal",
             description: "Horizontal orientation?",
-            inputMethod: "boolean",
-          },
-          {
-            property: "accentHeading",
-            title: "Heading Accent",
-            description: "Apply accent color to heading?",
-            inputMethod: "boolean",
-          },
-          {
-            property: "accentBackground",
-            title: "Background Accent",
-            description: "Apply accent color to card background?",
             inputMethod: "boolean",
           },
           {
@@ -541,8 +464,6 @@ class AccentCard extends IntersectionObserverMixin(DDD) {
   }
   constructor() {
     super();
-    this.accentBackground = false;
-    this.accentHeading = false;
     this.flat = false;
     this.horizontal = false;
     this.imageAlign = null;
@@ -567,24 +488,6 @@ class AccentCard extends IntersectionObserverMixin(DDD) {
   static get properties() {
     return {
       ...(super.properties || {}),
-
-      /**
-       * Apply accent color to card background
-       */
-      accentBackground: {
-        type: Boolean,
-        attribute: "accent-background",
-        reflect: true,
-      },
-
-      /**
-       * Apply accent color to heading
-       */
-      accentHeading: {
-        type: Boolean,
-        attribute: "accent-heading",
-        reflect: true,
-      },
 
       /**
        * Display card as flat (no box shadow);

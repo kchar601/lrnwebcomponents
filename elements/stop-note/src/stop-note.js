@@ -1,13 +1,9 @@
-import { html, css } from "lit";
+import { html, css, LitElement } from "lit";
 import { remoteLinkBehavior } from "@lrnwebcomponents/utils/lib/remoteLinkBehavior.js";
 import { SimpleIconsetStore } from "@lrnwebcomponents/simple-icon/lib/simple-iconset.js";
 import { I18NMixin } from "@lrnwebcomponents/i18n-manager/lib/I18NMixin.js";
 import "@lrnwebcomponents/simple-icon/simple-icon.js";
-import { DDD } from "@lrnwebcomponents/d-d-d/d-d-d.js";
-import {
-  DDDMarginPadding,
-  DDDBorders,
-} from "@lrnwebcomponents/d-d-d/lib/DDDStyles.js";
+import { DDDSuper } from "@lrnwebcomponents/d-d-d/d-d-d.js";
 
 // register the iconset
 SimpleIconsetStore.registerIconset(
@@ -31,15 +27,13 @@ export const StopNoteIconList = {
   info: "stopnoteicons:book-icon",
 };
 
-class StopNote extends I18NMixin(remoteLinkBehavior(DDD)) {
+class StopNote extends I18NMixin(remoteLinkBehavior(DDDSuper(LitElement))) {
   /**
    * LitElement constructable styles enhancement
    */
   static get styles() {
     return [
       super.styles,
-      DDDBorders,
-      DDDMarginPadding,
       css`
         :host {
           display: block;

@@ -2,8 +2,8 @@
  * Copyright 2019 PSU
  * @license Apache-2.0, see License.md for full text.
  */
-import { html, css } from "lit";
-import { DDD } from "@lrnwebcomponents/d-d-d/d-d-d.js";
+import { html, css, LitElement } from "lit";
+import { DDDSuper } from "@lrnwebcomponents/d-d-d/d-d-d.js";
 /**
   * `figure-label`
   * @element figure-label
@@ -12,11 +12,10 @@ import { DDD } from "@lrnwebcomponents/d-d-d/d-d-d.js";
   * @microcopy - language worth noting:
   *  -
   *
- 
   * @lit-element
   * @demo demo/index.html
   */
-class FigureLabel extends DDD {
+class FigureLabel extends DDDSuper(LitElement) {
   //styles function
   static get styles() {
     return [
@@ -40,19 +39,16 @@ class FigureLabel extends DDD {
           align-items: center;
           font-family: var(--ddd-font-primary);
           background-color: var(
-            --ddd-component-figure-label-title,
+            --ddd-theme-primary,
             var(
-              --ddd-theme-accent,
-              var(
-                --simple-colors-default-theme-accent-2,
+              --figure-label-primary,
                 var(--ddd-theme-default-limestoneLight)
-              )
-            )
+             )
           ); /* is this hierarchy correct? */
           color: var(
-            --ddd-component-figure-label-title-text,
+            --lowContrast-override,
             var(
-              --simple-colors-default-theme-accent-11,
+              --ddd-theme-bgContrast,
               var(--ddd-theme-default-potentialMidnight)
             )
           );
@@ -67,23 +63,29 @@ class FigureLabel extends DDD {
           font-family: var(--ddd-font-primary);
           border: var(--ddd-border-sm);
           border-color: var(
-            --ddd-component-figure-label-title,
+            --ddd-theme-primary,
             var(
-              --ddd-theme-accent,
-              var(
-                --simple-colors-default-theme-accent-2,
+              --figure-label-primary,
                 var(--ddd-theme-default-limestoneLight)
-              )
-            )
+             )
           );
           border-left: none;
           padding: var(--ddd-spacing-2);
           font-size: var(--ddd-font-size-4xs);
           background: var(
-            --ddd-component-figure-label-background,
-            var(--ddd-theme-default-white)
+            --ddd-theme-accent,
+            var(
+              --figure-label-accent,
+              var(--ddd-theme-default-white)
+            )
           );
           font-weight: var(--ddd-font-weight-regular);
+          color: var(
+            --lowContrast-override,
+            var(
+              --ddd-theme-default-potentialMidnight
+            )
+          );
         }
       `,
     ];

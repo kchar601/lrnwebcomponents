@@ -5,7 +5,7 @@ import { I18NMixin } from "@lrnwebcomponents/i18n-manager/lib/I18NMixin.js";
 import "@lrnwebcomponents/simple-icon/simple-icon.js";
 import "@lrnwebcomponents/simple-icon/lib/simple-icons.js";
 import "@lrnwebcomponents/simple-icon/lib/simple-icon-button.js";
-import { DDD } from "@lrnwebcomponents/d-d-d/d-d-d.js";
+import { DDDSuper } from "@lrnwebcomponents/d-d-d/d-d-d.js";
 /**
  * `self-check`
  * 
@@ -32,7 +32,7 @@ Custom property | Description | Default
  * @element self-check
  * 
  */
-class SelfCheck extends I18NMixin(lazyImageLoader(SchemaBehaviors(DDD))) {
+class SelfCheck extends I18NMixin(lazyImageLoader(SchemaBehaviors(DDDSuper(LitElement)))) {
   constructor() {
     super();
     this.correct = false;
@@ -83,6 +83,13 @@ class SelfCheck extends I18NMixin(lazyImageLoader(SchemaBehaviors(DDD))) {
           width: var(--ddd-icon-xl);
           margin: 0 var(--ddd-spacing-4) 0 var(--ddd-spacing-3);
           padding: var(--ddd-spacing-1);
+          color: var(
+            --lowContrast-override,
+            var(
+              --ddd-theme-bgContrast,
+              #000
+            )
+          );
         }
 
         .check_button {
@@ -104,13 +111,14 @@ class SelfCheck extends I18NMixin(lazyImageLoader(SchemaBehaviors(DDD))) {
           --simple-icon-height: var(--ddd-icon-lg);
           margin: 0 var(--ddd-spacing-4) 0 var(--ddd-spacing-3);
           padding: var(--ddd-spacing-2);
-          color: var(
-            --ddd-component-self-check-title-color,
+          --simple-icon-color: var(
+            --lowContrast-override,
             var(
-              --ddd-theme-font-color,
-              var(--simple-colors-default-theme-accent-1, #000)
+              --ddd-theme-bgContrast,
+              #fff
             )
           );
+          border-radius: var(--ddd-radius-circle);
         }
 
         .heading {
@@ -120,36 +128,35 @@ class SelfCheck extends I18NMixin(lazyImageLoader(SchemaBehaviors(DDD))) {
           font-size: var(--ddd-font-size-ms);
           font-weight: var(--ddd-font-weight-medium);
           color: var(
-            --ddd-component-self-check-title-color,
+            --lowContrast-override,
             var(
-              --ddd-theme-font-color,
-              var(--simple-colors-default-theme-accent-1, #000)
+              --ddd-theme-bgContrast,
+              #fff
             )
-          );
+          )
         }
 
         #header_wrap {
           background-color: var(
-            --ddd-component-self-check-title-background,
+            --ddd-theme-primary,
             var(
-              --ddd-theme-accent,
-              var(--simple-colors-default-theme-accent-8, #fff)
+              --self-check-primary,
+              var(--ddd-theme-default-beaverBlue)
             )
           );
           display: flex;
           align-items: center;
-          margin: calc(var(--ddd-spacing-7) * -1) 0 0;
           padding: 0 var(--ddd-spacing-3);
         }
 
         #question_wrap {
-          color: var(
-            --ddd-component-self-check-question-text,
-            var(--simple-colors-default-theme-grey-12, #000)
-          );
+          color: var(--lowContrast-override, #000);
           background-color: var(
-            --ddd-component-self-check-question-background,
-            var(--simple-colors-default-theme-grey-1, #fff)
+            --ddd-theme-accent,
+            var(
+              --self-check-accent,
+              var(--ddd-theme-default-white)
+            )
           );
           position: relative;
         }
@@ -170,12 +177,9 @@ class SelfCheck extends I18NMixin(lazyImageLoader(SchemaBehaviors(DDD))) {
         #answer_wrap {
           visibility: hidden;
           opacity: 0;
-          color: var(
-            --ddd-component-self-check-answer-text,
-            var(--simple-colors-default-theme-grey-12, #000)
-          );
+          color: var(--lowContrast-override, #fff);
           background-color: var(
-            --ddd-component-self-check-answer-background,
+            --self-check-answer-accent,
             var(--ddd-theme-default-successLight, #00762e)
           );
           width: 100%;
@@ -217,10 +221,10 @@ class SelfCheck extends I18NMixin(lazyImageLoader(SchemaBehaviors(DDD))) {
           border-right: var(--ddd-spacing-6) solid transparent;
           border-bottom: var(--ddd-spacing-6) solid
             var(
-              --ddd-component-self-check-title-background,
+              --ddd-theme-primary,
               var(
-                --ddd-theme-accent,
-                var(--simple-colors-default-theme-accent-8, #fff)
+                --self-check-primary,
+                var(--ddd-theme-default-beaverBlue)
               )
             );
           position: relative;
@@ -250,10 +254,6 @@ class SelfCheck extends I18NMixin(lazyImageLoader(SchemaBehaviors(DDD))) {
           margin-top: 0;
         }
 
-        .r-circle {
-          border-radius: var(--ddd-radius-circle);
-        }
-
         @container card (width < 585px) {
           #header_wrap {
             margin: calc(var(--ddd-spacing-9) * -1) 0 0;
@@ -273,24 +273,23 @@ class SelfCheck extends I18NMixin(lazyImageLoader(SchemaBehaviors(DDD))) {
   render() {
     return html`
       <div class="card">
+      ${this.image ? 
+        html`
         <div class="image-wrap">
-          ${this.image
-            ? html` ${this.renderSVGLoader()}
-                <img
-                  src="${this.image}"
-                  alt="${this.alt}"
-                  aria-describedby="${this.describedBy || ""}"
-                  loading="lazy"
-                />`
-            : ``}
+          ${this.renderSVGLoader()}
+          <img 
+            src="${this.image}" 
+            alt="${this.alt}" 
+            aria-describedby="${this.describedBy || ""}" 
+            loading="lazy" />
         </div>
-        <div class="triangle"></div>
-        <div id="header_wrap">
+        <div class="triangle"></div>      
+        ` : ``}
+        <div id="header_wrap" style="${this.image ? `margin: calc(var(--ddd-spacing-7) * -1) 0 0` : ''}">
           <simple-icon
             class="r-circle"
             id="questionmark"
             icon="icons:help"
-            ?dark="${!this.dark}"
             contrast="4"
           ></simple-icon>
           <div class="heading" id="title">

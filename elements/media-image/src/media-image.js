@@ -28,7 +28,9 @@ class MediaImage extends DDD {
           max-width: 600px;
           font-family: var(--ddd-font-secondary);
           font-weight: var(--ddd-font-secondary-light);
-          font-size: var(--ddd-font-size-4xs);
+          background-color: var(--ddd-theme-accent, 
+            var(--media-image-accent)
+          );
         }
 
         :host([card]) {
@@ -36,16 +38,12 @@ class MediaImage extends DDD {
           border: var(--ddd-border-xs);
           border-color: var(--ddd-theme-default-limestoneLight);
           padding: var(--ddd-spacing-5);
-          background-color: var(
-            --ddd-component-media-image-card-color,
-            var(--card-background-color)
-          );
         }
 
         :host([box]) {
           padding: var(--ddd-spacing-5);
-          background-color: var(--ddd-theme-accent, var(--ddd-accent-2));
         }
+
         @media screen and (min-width: 650px) {
           :host([size="small"]) {
             max-width: 35%;
@@ -90,10 +88,9 @@ class MediaImage extends DDD {
           max-height: var(--ddd-icon-4xl);
           border: var(--ddd-border-sm);
           border-color: var(
-            --ddd-component-figure-label-title,
-            var(--ddd-theme-accent, var(--ddd-theme-default-limestoneLight))
+            --ddd-theme-primary,
+            var(--media-image-primary)
           );
-          background: var(--ddd-component-figure-label-background, transparent);
           padding: var(--ddd-spacing-2);
           margin-bottom: var(--ddd-spacing-5);
           line-height: var(--ddd-lh-140);
@@ -531,14 +528,8 @@ class MediaImageImage extends SimpleModalHandler(DDD) {
           overflow: show;
           border: var(--ddd-border-sm);
           border-color: var(
-            --ddd-component-figure-label-title,
-            var(
-              --ddd-theme-accent,
-              var(
-                --simple-colors-default-theme-accent-2,
-                var(--ddd-theme-default-limestoneLight)
-              )
-            )
+            --ddd-theme-primary,
+            var(--media-image-primary, black)
           );
         }
       `,
@@ -657,7 +648,6 @@ class MediaImageCaption extends DDD {
           display: block;
           overflow: auto;
           margin-top: var(--ddd-spacing-1);
-          font-size: var(--ddd-font-size-4xs);
           font-weight: var(--ddd-font-weight-regular);
           font-family: var(--ddd-font-primary);
         }
